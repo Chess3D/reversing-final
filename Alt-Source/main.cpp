@@ -18,7 +18,7 @@ using std::ofstream;
 // Global Variables :(
 struct timeval tv;
 string admin_user = "NEDRY";
-string admin_password = "Mr. Goodbyte";
+string admin_password = "Mr. Goodbytes";
 bool loggedin = false;
 
 
@@ -44,6 +44,11 @@ bool validate(string &username, string &password) {
     return loggedin;
 }
 
+// TODO:  Write this code
+void menus() {
+    
+}
+
 // Does not exist in the source code
 // Used to clean up main function
 void control_loop(ofstream &log) {
@@ -55,9 +60,41 @@ void control_loop(ofstream &log) {
         log << user_input;
 
         if (!strcmp("HELP", user_input)) {
-            
+            menus();
         } else {
-
+            if (!strcmp("QUIT", user_input)) {
+                return;
+            }
+            
+            // TODO:  In source code
+            // Remove?  Spaces are not read
+            if (!strcmp("alarmstatus --vc", user_input)) {
+                Alarm::printMessage((Alarm *) &visitorAlarm)
+            } else if (!strcmp("unlockdoor --vc", user_input)) {
+                Entry::unlock((Entry *)&visitorDoor);
+            } else if (!strcmp("lockdoor --vc", user_input)) {
+                Entry::lock((Entry *)&visitorDoor);
+            } else if (!strcmp("camerastatus --vc", user_input)) {
+                Camera::displayFeed((Camera *)&visitorCamera);
+            } else if (!strcmp("inventorysummary --vc", user_input)) {
+                if (!strcmp("alarmstatus --park", user_input)) {
+                    Alarm::printMessage((Alarm *)&parkAlarm);
+                } else if (!strcmp("camerastatus --park", user_input)) {
+                    parkCameras();
+                } else if (!strcmp("inventorysummary --park", user_input)) {
+                    if (!strcmp("alarmstatus --lab", user_input)) {
+                        Alarm::printMessage((Alarm *)&labAlarm);
+                    } else if (!strcmp("unlockdoor --lab", user_input)) {
+                        Entry::unlock((Entry *)&vaultDoor);
+                    } else if (!strcmp("lockdoor --lab", user_input)) {
+                        Entry::lock((Entry *)&vaultDoor);
+                    } else if (!strcmp("camerastatus --lab", user_input)) {
+                        Camera::displayFeed((Camera *)&vaultCamera);
+                    } else if (!strcmp("genesummary --lab", user_input)) {
+                        getGenes();
+                    }
+                }
+            }
         }
     }
 }
