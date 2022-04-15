@@ -18,20 +18,48 @@ using std::ofstream;
 // Global Variables :(
 struct timeval tv;
 string admin_user = "NEDRY";
+string admin_password = "Mr. Goodbyte";
 bool loggedin = false;
 
 
-// TODO:  Write function
-string logdata(sting &input) {
-    return input;
+// TODO:  Has an unused input in disassembly (why?)
+string logdata() {
+    string output = "";
+    output += "THANK YOU FOR USING THE INGEN SYSTEM\n";
+    output += "WE APPRECIATE YOUR CONTRIBUTIONS\n";
+    output += "TRY AGAIN LATER IF YOU WANT\n";
+    output += "STORE THIS INFORMATION FOR YOUR RECORDS\n";
+
+    return output;
 }
 
+// Validate the username and password
 bool validate(string &username, string &password) {
-    if (!strcmp(admin_user, username) && ) {
+
+    // TODO:  Password comparision done differently in source code 
+    if (!strcmp(admin_user, username) && !strcmp(admin_password, password)) {
         loggedin = true;
     }
 
     return loggedin;
+}
+
+// Does not exist in the source code
+// Used to clean up main function
+void control_loop(ofstream &log) {
+    string user_input = "";
+
+    while (!strcmp("QUIT", user_input)) {
+        cout << ">> ";
+        cin >> user_input;
+        log << user_input;
+
+        if (!strcmp("HELP", user_input)) {
+            
+        } else {
+
+        }
+    }
 }
 
 int main() {
@@ -68,8 +96,11 @@ int main() {
         log << "USER: " << username << endl;
         log << "PASS: " << password << endl;
 
-        if (!validate(username, password)) {
-            
+        // Log the log message
+        log << logdata();
+
+        if (validate(username, password)) {
+            control_loop(&log);
         }
     }
 
