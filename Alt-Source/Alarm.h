@@ -6,10 +6,12 @@
 
 // Required external imports
 #include <string>
-
-class Alarm {
+using namespace std;
+class Alarm
+{
 private:
     string message;
+
 public:
     // Alarm(ElectricalSystem);
     void setMessage(string message);
