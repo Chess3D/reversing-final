@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp"
     }
 }

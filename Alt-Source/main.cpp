@@ -44,10 +44,78 @@ bool validate(string &username, string &password) {
     return loggedin;
 }
 
-// TODO:  Write this code
-void menus() {
-    
+
+// TODO:  Write function
+void visitor_controls() {
+
 }
+
+
+// TODO:  Write function
+void park_controls() {
+
+}
+
+
+// TODO:  Write function
+void lab_controls() {
+
+}
+
+
+// This was originally in menus but was moved here to make testing easier
+void check_alarms() {
+    cout << "Checking alarms..." << endl;
+
+    cout << "Lab:" << endl;
+    Alarm::printMessage((Alarm *)&labAlarm);
+
+    cout << "Visitor Center:" << endl;
+    Alarm::printMessage((Alarm *)&visitorAlarm);
+
+    cout << "Park:" << endl;
+    Alarm::printMessage((Alarm *)&parkAlarm);
+}
+
+
+// Function changes
+// 1. Moved the cin into the loop
+// 2. Changed to do-while loop
+// This prevents the code from being stuck in an infinite loop
+void menus() {
+    int input;
+
+    do {
+        // Print help menu
+        cout << "[1] - Visitor Center\n"
+        cout << "[2] - Park \n"
+        cout << "[3] - Research Lab\n"
+        cout << "[99] - Check Alarms\n"
+        cout << "[0] - QUIT MENU\n"
+
+        cin >> input;
+
+        switch (input) {
+            case 1:
+                visitor_controls();
+                break;
+            case 2:
+                park_controls();
+                break;
+            case 3:
+                lab_controls();
+                break;
+            case 99:
+                // This repaces the code previously here to help with debuging
+                check_alarms();
+                break;
+            default:
+                "Invalid instruction.\n"
+                break;
+        }
+    } while (input)
+}
+
 
 // Does not exist in the source code
 // Used to clean up main function
