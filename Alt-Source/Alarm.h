@@ -9,18 +9,8 @@
 
 class Alarm: public ElectricalSystem {
 private:
-    // Types of alarms
-    std::string custom;
-    
-    // Deviates from source code but should be functionally equivalent
-    // Originally these were assigned and left unchanged in the constructor
-    const std::string messages[5] = {
-        "SEVERE WEATHER IMMINDENT. EVACUATE IMMEDIATELY",
-        "THE FIRE ALARM HAS BEEN ACTIVATED. EVACUATE IMMEDIATELY",
-        "BREACH DETECTED",
-        "SYSTEM FAILURE",
-        "ASSETS OUT OF CONTAINTMENT. THIS IS NOT A DRILL."
-    };
+    // Alarm message
+    std::string message;
 
 public:
     Alarm(std::string input);

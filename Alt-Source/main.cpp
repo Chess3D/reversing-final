@@ -1,11 +1,23 @@
+// External imports
 #include <iostream>
 #include <fstream>
-
 #include <sys/time.h>
-//#include <Alarm.h>
 #include <string.h>
 
-// using namespace std;
+// Internal imports
+
+
+// string namespace
+using std::string;
+
+// iostream namespace
+using std::cout;
+using std::cin;
+using std::endl;
+
+// fstream namespace
+using std::ofstream;
+
 
 // Global Variables :(
 struct timeval tv;
@@ -44,8 +56,7 @@ void visitor_controls()
     cout << "VISITOR CONTROLS";
 
     string status = "All clear";
-    ElectricSystem test = Alarm::Alarm((ElectricalSystem *)v27, status);
-
+    // ElectricSystem test = Alarm::Alarm((ElectricalSystem *)v27, status);
 }
 
 // TODO:  Write function
@@ -92,6 +103,7 @@ void menus(ofstream &log)
 
         cin >> input;
         log << input << endl;
+
         switch (input)
         {
         case 1:
