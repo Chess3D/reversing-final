@@ -1,5 +1,7 @@
 #include <ElectricalSystem.h>
 
+using std::string;
+
 ElectricalSystem::ElectricalSystem() {
     password = "howdy";
 }
