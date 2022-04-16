@@ -2,7 +2,7 @@
 #define ELECTRICAL_SYSTEM_H
 
 #include <string>
-using std::string
+using std::string;
 
 class ElectricalSystem {
 private:
