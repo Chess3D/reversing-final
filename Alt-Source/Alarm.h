@@ -4,17 +4,25 @@
 // Required internal imports
 #include <ElectricalSystem.h>
 
-// Required external imports
-#include <string>
-using namespace std;
-class Alarm
-{
+class Alarm: public ElectricalSystem {
 private:
-    string message;
+    // Types of alarms
+    string custom;
+    
+    // Deviates from source code but should be functionally equivalent
+    // Originally these were assigned and left unchanged in the constructor
+    const string messages[] = {
+        "SEVERE WEATHER IMMINDENT. EVACUATE IMMEDIATELY",
+        "THE FIRE ALARM HAS BEEN ACTIVATED. EVACUATE IMMEDIATELY",
+        "BREACH DETECTED",
+        "SYSTEM FAILURE",
+        "ASSETS OUT OF CONTAINTMENT. THIS IS NOT A DRILL."
+    };
 
 public:
-    // Alarm(ElectricalSystem);
-    void setMessage(string message);
+    Alarm(string input);
+    Alarm(int input);
+    void setMessage(string input);
     void printMessage();
 };
 

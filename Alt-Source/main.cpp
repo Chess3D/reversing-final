@@ -5,7 +5,7 @@
 //#include <Alarm.h>
 #include <string.h>
 
-using namespace std;
+// using namespace std;
 
 // Global Variables :(
 struct timeval tv;
@@ -41,6 +41,11 @@ bool validate(string &username, string &password)
 // TODO:  Write function
 void visitor_controls()
 {
+    cout << "VISITOR CONTROLS";
+
+    string status = "All clear";
+    ElectricSystem test = Alarm::Alarm((ElectricalSystem *)v27, status);
+
 }
 
 // TODO:  Write function
