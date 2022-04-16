@@ -1,7 +1,9 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-class Camera {
+#include <ElectricalSystem.h>
+
+class Camera: public ElectricalSystem {
 private:
     
 public:

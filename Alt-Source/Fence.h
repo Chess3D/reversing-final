@@ -1,7 +1,9 @@
 #ifndef FENCE_H
 #define FENCE_H
 
-class Fence {
+#include <ElectricalSystem.h>
+
+class Fence: public ElectricalSystem {
 private:
     
 public:
