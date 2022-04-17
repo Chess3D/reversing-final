@@ -5,7 +5,7 @@
 #include <string.h>
 
 // Internal imports
-
+#include <Alarm.h>
 
 // string namespace
 using std::string;
@@ -75,13 +75,13 @@ void check_alarms()
     cout << "Checking alarms..." << endl;
 
     cout << "Lab:" << endl;
-    // Alarm::printMessage((Alarm *)&labAlarm);
+    labAlarm.printMessage();
 
     cout << "Visitor Center:" << endl;
-    // Alarm::printMessage((Alarm *)&visitorAlarm);
+    visitorAlarm.printMessage();
 
     cout << "Park:" << endl;
-    // Alarm::printMessage((Alarm *)&parkAlarm);
+    parkAlarm.printMessage();
 }
 
 // Function changes
@@ -153,47 +153,47 @@ void control_loop(ofstream &log)
             // Remove?  Spaces are not read
             if (!strcmp("alarmstatus --vc", user_input.c_str()))
             {
-                // Alarm::printMessage((Alarm *)&visitorAlarm)
+                visitorAlarm.printMessage();
             }
             else if (!strcmp("unlockdoor --vc", user_input.c_str()))
             {
-                // Entry::unlock((Entry *)&visitorDoor);
+                vistorDoor.unlock();
             }
             else if (!strcmp("lockdoor --vc", user_input.c_str()))
             {
-                // Entry::lock((Entry *)&visitorDoor);
+                visitorDoor.lock();
             }
             else if (!strcmp("camerastatus --vc", user_input.c_str()))
             {
-                // Camera::displayFeed((Camera *)&visitorCamera);
+                visitorCamera.displayFeed();
             }
             else if (!strcmp("inventorysummary --vc", user_input.c_str()))
             {
                 if (!strcmp("alarmstatus --park", user_input.c_str()))
                 {
-                    // Alarm::printMessage((Alarm *)&parkAlarm);
+                    parkAlarm.printMessage();
                 }
                 else if (!strcmp("camerastatus --park", user_input.c_str()))
                 {
-                    // parkCameras();
+                    parkCamera.displayFeed();
                 }
                 else if (!strcmp("inventorysummary --park", user_input.c_str()))
                 {
                     if (!strcmp("alarmstatus --lab", user_input.c_str()))
                     {
-                        // Alarm::printMessage((Alarm *)&labAlarm);
+                        labAlarm.printMessage();
                     }
                     else if (!strcmp("unlockdoor --lab", user_input.c_str()))
                     {
-                        // Entry::unlock((Entry *)&vaultDoor);
+                        vaultDoor.unlock();
                     }
                     else if (!strcmp("lockdoor --lab", user_input.c_str()))
                     {
-                        // Entry::lock((Entry *)&vaultDoor);
+                        vaultDoor.lock();
                     }
                     else if (!strcmp("camerastatus --lab", user_input.c_str()))
                     {
-                        // Camera::displayFeed((Camera *)&vaultCamera);
+                        vaultCamera.displayFeed();
                     }
                     else if (!strcmp("genesummary --lab", user_input.c_str()))
                     {

@@ -2,13 +2,17 @@
 #define ASSET_H
 
 #include <string>
-using std::string;
 
 class Asset {
 private:
-    string location;
+    std::string name;
+
+    double x;
+    double y;
+
 public:
-    string getLocation();
+    Asset(std::string name, double x, double y);
+    std::string getLocation();
 };
 
 #endif

@@ -3,11 +3,9 @@
 
 #include <ElectricalSystem.h>
 
-class Fence: public ElectricalSystem {
-private:
-    
+class Fence: public ElectricalSystem { 
 public:
-    
+    Fence();
 };
 
 #endif
