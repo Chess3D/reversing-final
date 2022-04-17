@@ -126,6 +126,26 @@ void menus(ofstream &log)
     } while (input);
 }
 
+
+void getGenes() {
+    cout << "Gene Sequence:" << endl;
+    cout << "===================================================" << endl;
+
+    char base[4] = {'T', 'G', 'C', 'A'};
+
+    for (int i = 0; i < 200; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            for (int k = 0; k < 10; ++k) {
+                cout << base[rand() % 4];
+            }
+            cout << "\t";
+        }
+        cout << endl;
+    }
+    cout << "===================================================" << endl;
+}
+
+
 // Does not exist in the source code
 // Used to clean up main function
 void control_loop(ofstream &log)
@@ -197,7 +217,7 @@ void control_loop(ofstream &log)
                     }
                     else if (!strcmp("genesummary --lab", user_input.c_str()))
                     {
-                        // getGenes();
+                        getGenes();
                     }
                 }
             }
