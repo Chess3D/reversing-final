@@ -4,6 +4,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <map>
+
 // Internal imports
 
 // string namespace
@@ -23,6 +24,7 @@ string admin_user = "NEDRY";
 string admin_password = "Mr. Goodbytes";
 bool loggedin = false;
 
+
 // TODO:  Has an unused input in disassembly (why?)
 string logdata()
 {
@@ -34,6 +36,7 @@ string logdata()
 
     return output;
 }
+
 
 // Validate the username and password
 bool validate(string &username, string &password)
@@ -48,6 +51,7 @@ bool validate(string &username, string &password)
     return loggedin;
 }
 
+
 // TODO:  Write function
 void visitor_controls()
 {
@@ -56,6 +60,7 @@ void visitor_controls()
     string status = "All clear";
     // ElectricSystem test = Alarm::Alarm((ElectricalSystem *)v27, status);
 }
+
 
 // TODO:  Write function
 void park_controls(ofstream &log)
@@ -157,6 +162,7 @@ void park_controls(ofstream &log)
     } while (input);
 }
 
+
 // TODO:  Write function
 void lab_controls()
 {
@@ -167,6 +173,7 @@ void lab_controls()
     cout << "camerastatus --lab\n";
     cout << "genesummary --lab\n";
 }
+
 
 // This was originally in menus but was moved here to make testing easier
 void check_alarms()
@@ -227,6 +234,7 @@ void menus(ofstream &log)
     } while (input);
 }
 
+
 void getGenes()
 {
     cout << "Gene Sequence:" << endl;
@@ -248,6 +256,7 @@ void getGenes()
     }
     cout << "===================================================" << endl;
 }
+
 
 // Does not exist in the source code
 // Used to clean up main function
@@ -328,6 +337,7 @@ void control_loop(ofstream &log)
     }
 }
 
+
 int main()
 {
     cout << "Welcome to InGen" << endl;
@@ -375,8 +385,9 @@ int main()
             break;
         }
     }
-    if (!loggedin)
+    if (!loggedin) {
         cout << "TOO MANY ATTEMPTS" << endl;
+    }
     log.close();
 
     return 0;
