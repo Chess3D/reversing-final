@@ -15,9 +15,15 @@ private:
     bool opened;
 
 public:
+    Entry();
     void lock();
     void unlock();
+
+    void open();
+    void close();
+
     bool isOpen();
+    bool isLocked();
 };
 
 #endif

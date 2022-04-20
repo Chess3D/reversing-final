@@ -8,8 +8,8 @@ using std::string;
 using std::getline;
 
 Entry::Entry() {
-    opened = 0;
-    locked = 1;
+    locked = true;
+    opened = false;
 }
 
 
@@ -23,7 +23,7 @@ void Entry::lock() {
 
     if (passwordCorrect(passcode)) {
         if (isOn()) {
-            locked = 1;
+            locked = true;
         }
     } else {
         cout << "Passoword Incorrect" << endl;
@@ -32,7 +32,7 @@ void Entry::lock() {
 
 
 // Changed unlock to use the ElectricalSystem password
-void Entry::lock() {
+void Entry::unlock() {
     cout << "Enter passcode: ";
     cin.ignore();
 
@@ -41,10 +41,26 @@ void Entry::lock() {
 
     if (passwordCorrect(passcode)) {
         if (isOn()) {
-            locked = 0;
+            locked = false;
         }
     } else {
         cout << "Passoword Incorrect" << endl;
+    }
+}
+
+
+// Do not require a password to open
+void Entry::open() {
+    if (isOn() && !locked) {
+        opened = true;
+    }
+}
+
+
+// Do not require a password to close
+void Entry::close() {
+    if (isOn()) {
+        opened = false;
     }
 }
 

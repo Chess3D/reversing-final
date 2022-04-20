@@ -99,7 +99,7 @@ void park_controls(ofstream &log) {
 
         switch (input) {
         case 1:
-            // Alarm::printMessage((Alarm *)parkAlarm);
+            parkAlarm.printMessage();
             break;
         case 2:
             cout << "Current Status" << endl;

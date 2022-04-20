@@ -7,8 +7,8 @@ class ElectricalSystem {
 private:
     bool systemOn;
     std::string password;
-    
-protected:
+
+public:
     ElectricalSystem();
     bool passwordCorrect(std::string input);
     void turnOff(std::string password);
