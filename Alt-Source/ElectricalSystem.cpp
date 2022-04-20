@@ -2,8 +2,11 @@
 
 using std::string;
 
+#include <iostream>
+
 ElectricalSystem::ElectricalSystem()
 {
+    systemOn = true;
     password = "howdy";
 }
 
@@ -17,6 +20,7 @@ bool ElectricalSystem::isOn()
 // Code is unused after small change to turnOff function
 bool ElectricalSystem::passwordCorrect(string input)
 {
+    std::cout << "'" << input << "'" << std::endl;
     return password == input;
 }
 

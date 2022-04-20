@@ -33,19 +33,19 @@ string admin_password = "Mr. Goodbytes";
 bool loggedin = false;
 
 // Visitor controls
-Alarm visitorAlarm;
+Alarm visitorAlarm("VISITOR ALARM");
 Entry visitorDoor;
-Camera visitorCamera;
+Camera visitorCamera("ONLINE");
 
 // Park controls
-Alarm parkAlarm;
+Alarm parkAlarm("PARK ALARM");
 Entry parkDoor;
-Camera parkCamera;
+Camera parkCamera("ONLINE");
 
 // Lab controls
-Alarm labAlarm;
+Alarm labAlarm("LAB ALARM");
 Entry vaultDoor;
-Camera vaultCamera;
+Camera vaultCamera("ONLINE");
 
 // TODO:  Has an unused input in disassembly (why?)
 string logdata()
@@ -200,13 +200,13 @@ void check_alarms()
     cout << "Checking alarms..." << endl;
 
     cout << "Lab:" << endl;
-    // labAlarm.printMessage();
+    labAlarm.printMessage();
 
     cout << "Visitor Center:" << endl;
-    // visitorAlarm.printMessage();
+    visitorAlarm.printMessage();
 
     cout << "Park:" << endl;
-    // parkAlarm.printMessage();
+    parkAlarm.printMessage();
 }
 
 // Function changes
@@ -294,11 +294,11 @@ void do_command(string command, Alarm alarm, Entry door, Camera camera)
     {
         alarm.printMessage();
     }
-    else if (command == "lockdoor")
+    else if (command == "doorlock")
     {
         door.lock();
     }
-    else if (command == "unlockdoor")
+    else if (command == "doorunlock")
     {
         door.unlock();
     }
@@ -343,13 +343,13 @@ void control_loop(ofstream &log)
     }
     else if (location == "--vc")
     {
-        // do_command(command, visitorAlarm, visitorDoor, visitorCamera);
+        do_command(command, visitorAlarm, visitorDoor, visitorCamera);
     }
-    else if (command == "--park")
+    else if (location == "--park")
     {
-        // do_command(command, parkAlarm, parkDoor, parkCamera);
+        do_command(command, parkAlarm, parkDoor, parkCamera);
     }
-    else if (command == "--lab")
+    else if (location == "--lab")
     {
         if (command == "genesummary")
         {
@@ -357,7 +357,7 @@ void control_loop(ofstream &log)
         }
         else
         {
-            // do_command(command, labAlarm, vaultDoor, vaultCamera);
+            do_command(command, labAlarm, vaultDoor, vaultCamera);
         }
     }
 
