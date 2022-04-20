@@ -32,6 +32,10 @@ void Entry::lock()
         {
             locked = true;
         }
+        else
+        {
+            cout << "ERROR:  Entry is powered down" << endl;
+        }
     }
     else
     {
