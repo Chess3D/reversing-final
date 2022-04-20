@@ -1,23 +1,26 @@
 #ifndef CAR_H
 #define CAR_H
 
-// Required internal import(s)
-#include "ElectricalSystem.h"
-
 // Required external import(s)
 #include <iostream>
-
-class Alarm : public ElectricalSystem
+#include <map>
+class Car
 {
 private:
-    // Alarm message
-    std::string message;
+    // car info
+    std::string name;
+    std::pair<double, double> coords;
+    int numPass;
+    int fuel;
+    int integrity;
 
 public:
-    Alarm(std::string input);
-    Alarm(int input);
-    void setMessage(std::string input);
-    void printMessage();
+    Car(std::string name, double x, double y, int numPass, double fuel, double integrity);
+    std::pair<double, double> getCoords();
+    int getNumPass();
+    double getFuel();
+    double getIntegrity();
+    void printCarInfo();
 };
 
 #endif

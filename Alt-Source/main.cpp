@@ -5,13 +5,14 @@
 #include <sys/time.h>
 #include <string.h>
 #include <map>
-
+#include <vector>
 // Internal imports
 #include "Alarm.h"
 #include "Entry.h"
 #include "Camera.h"
 #include "Asset.h"
-
+#include "Car.h"
+#include "MD5.h"
 // string namespace
 using std::string;
 
@@ -29,7 +30,7 @@ using std::istringstream;
 // Global Variables :(
 struct timeval tv;
 string admin_user = "NEDRY";
-string admin_password = "Mr. Goodbytes";
+string admin_password = "602a2fb3c804262da455d0e57df95e2b";
 bool loggedin = false;
 
 // Visitor controls
@@ -46,6 +47,9 @@ Camera parkCamera("ONLINE");
 Alarm labAlarm("LAB ALARM");
 Entry vaultDoor;
 Camera vaultCamera("ONLINE");
+
+// Car storage vector
+std::vector<Car> cars;
 
 // TODO:  Has an unused input in disassembly (why?)
 string logdata()
@@ -64,8 +68,12 @@ bool validate(string &username, string &password)
 {
 
     // TODO:  Password comparision done differently in source code
-    if ((admin_user == username) && (admin_password == password))
+    string hashResult = md5(password);
+
+    if ((admin_user == username) && (admin_password == hashResult))
     {
+        cout << "\nWELCOME BACK, " << username << endl
+             << endl;
         loggedin = true;
     }
 
@@ -78,7 +86,8 @@ void visitor_controls()
     cout << "VISITOR CONTROLS\n";
 
     string status = "All clear";
-    // ElectricSystem test = Alarm::Alarm((ElectricalSystem *)v27, status);
+    visitorAlarm.setMessage(status);
+    visitorAlarm.printMessage();
 }
 
 // TODO:  Write function
@@ -97,7 +106,7 @@ void park_controls(ofstream &log)
         switch (input)
         {
         case 1:
-            // parkAlarm.printMessage();
+            parkAlarm.printMessage();
             break;
         case 2:
             cout << "Current Status" << endl;
@@ -109,73 +118,43 @@ void park_controls(ofstream &log)
             break;
         case 3:
         {
-            std::map<string, std::pair<int, int>> carCords;
-            carCords["CAR001"] = std::make_pair(-10, -10);
-            carCords["CAR002"] = std::make_pair(-10, 10);
-            carCords["CAR003"] = std::make_pair(10, -10);
-            carCords["CAR004"] = std::make_pair(10, 10);
-            cout << "=====================\n CURRENT COORDINATES \n=====================\n\n";
+            Car car001("CAR001", -10, -10, 2, 4, 100);
+            cars.push_back(car001);
+            Car car002("CAR002", -10, 10, 4, 10, 97);
+            cars.push_back(car002);
+            Car car003("CAR003", 10, -10, 10, 20, 84);
+            cars.push_back(car003);
+            Car car004("CAR004", 10, 10, 7, 16, 32);
+            cars.push_back(car004);
 
-            auto iter = carCords.begin();
-            while (iter != carCords.end())
+            for (std::vector<Car>::iterator i = cars.begin(); i != cars.end(); i++)
             {
-                cout << iter->first << "\n=====\n"
-                     << iter->second.first << ", " << iter->second.second << "\n\n";
-                ++iter;
+                i->printCarInfo();
             }
-
-            std::map<string, std::pair<int, int>> carInfo;
-            carInfo["CAR001"] = std::make_pair(2, 4);
-            carInfo["CAR002"] = std::make_pair(4, 10);
-            carInfo["CAR003"] = std::make_pair(10, 20);
-            carInfo["CAR004"] = std::make_pair(7, 16);
-            cout << "========================================\n CURRENT Passenger Count and Fuel Level \n========================================\n\n";
-            iter = carInfo.begin();
-
-            while (iter != carInfo.end())
-            {
-                cout << iter->first << "\n=====\n"
-                     << "Passengers: "
-                     << iter->second.first << "\nFuel Level: " << iter->second.second << "\n\n";
-                ++iter;
-            }
-
-            std::map<string, int> carInt;
-            carInt["CAR001"] = 100;
-            carInt["CAR002"] = 97;
-            carInt["CAR003"] = 84;
-            carInt["CAR004"] = 32;
-            cout << "==============================\n CURRENT Structural Integrity \n==============================\n\n";
-            auto iter2 = carInt.begin();
-            while (iter2 != carInt.end())
-            {
-                cout << iter2->first << "\n=====\n"
-                     << iter2->second << "\n\n";
-                ++iter2;
-            }
-            cout << "=====================\n\n\n";
         }
         break;
         case 4:
-            // Asset a1("Dilophosaurus", 23.0, 4.0);
-            // Asset a2("Dilophosaurus", 21.0, 16.0);
-            // Asset a3("Dilophosaurus", 12.0, 6.0);
-            // cout << "Assets 1-3 can be found in this section: ";
-            // cout << a1.getLocation() << endl;
-            // Asset a4("T-Rex", 15.0, -17.0);
-            // cout << "Asset 4 can be found in this section: ";
-            // cout << a4.getLocation() << endl;
-            // Asset a5("Triceratops", -12.0, -12.0);
-            // Asset a6("Triceratops", -22.0, -22.0);
-            // cout << "Assets 5-6 can be found in this section: ";
-            // cout << a5.getLocation() << endl;
-            // Asset a7("Raptor", -18.0, 9.0);
-            // Asset a8("Raptor", -18.0, 7.0);
-            // Asset a9("Raptor", -16.0, 5.0);
-            // Asset a10("Raptor", -12.0, 9.0);
-            // cout << "Assets 7-10 can be found in this section: ";
-            // cout << a7.getLocation() << endl;
-            break;
+        {
+            Asset a1("Dilophosaurus", 23.0, 4.0);
+            Asset a2("Dilophosaurus", 21.0, 16.0);
+            Asset a3("Dilophosaurus", 12.0, 6.0);
+            cout << "Assets 1-3 can be found in this section: ";
+            cout << a1.getLocation() << endl;
+            Asset a4("T-Rex", 15.0, -17.0);
+            cout << "Asset 4 can be found in this section: ";
+            cout << a4.getLocation() << endl;
+            Asset a5("Triceratops", -12.0, -12.0);
+            Asset a6("Triceratops", -22.0, -22.0);
+            cout << "Assets 5-6 can be found in this section: ";
+            cout << a5.getLocation() << endl;
+            Asset a7("Raptor", -18.0, 9.0);
+            Asset a8("Raptor", -18.0, 7.0);
+            Asset a9("Raptor", -16.0, 5.0);
+            Asset a10("Raptor", -12.0, 9.0);
+            cout << "Assets 7-10 can be found in this section: ";
+            cout << a7.getLocation() << endl;
+        }
+        break;
         default:
             cout << "EXITING PARK CONTROLS\n ";
             break;
