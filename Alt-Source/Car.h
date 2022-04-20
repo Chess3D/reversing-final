@@ -1,5 +1,5 @@
-#ifndef ALARM_H
-#define ALARM_H
+#ifndef CAR_H
+#define CAR_H
 
 // Required internal import(s)
 #include "ElectricalSystem.h"

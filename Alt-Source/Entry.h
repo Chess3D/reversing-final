@@ -2,14 +2,15 @@
 #define ENTRY_H
 
 // Internal import(s)
-#include <ElectricalSystem.h>
+#include "ElectricalSystem.h"
 
 // External import(s)
 #include <iostream>
 #include <string>
 #include <string.h>
 
-class Entry: public ElectricalSystem {
+class Entry : public ElectricalSystem
+{
 private:
     bool locked;
     bool opened;

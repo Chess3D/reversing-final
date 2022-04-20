@@ -6,11 +6,12 @@
 #include <iostream>
 
 // Internal import(s)
-#include <Fence.h>
-#include <Entry.h>
-#include <Camera.h>
+#include "Fence.h"
+#include "Entry.h"
+#include "Camera.h"
 
-class ParkSection {
+class ParkSection
+{
 private:
     std::string name;
     Fence fence = Fence(0, 0, 0, 0);

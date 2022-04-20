@@ -1,9 +1,10 @@
 #ifndef FENCE_H
 #define FENCE_H
 
-#include <ElectricalSystem.h>
+#include "ElectricalSystem.h"
 
-class Fence: public ElectricalSystem { 
+class Fence : public ElectricalSystem
+{
 private:
     double leftBound, rightBound;
     double upperBound, lowerBound;

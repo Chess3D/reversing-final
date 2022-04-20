@@ -2,13 +2,14 @@
 #define CAMERA_H
 
 // Internal import(s)
-#include <ElectricalSystem.h>
+#include "ElectricalSystem.h"
 
 // External import(s)
 #include <string>
 #include <iostream>
 
-class Camera: public ElectricalSystem {
+class Camera : public ElectricalSystem
+{
 private:
     std::string view;
 
