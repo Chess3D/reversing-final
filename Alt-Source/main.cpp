@@ -363,7 +363,7 @@ bool do_command(string location, string object, string command) {
         cout << "[HELP] " << name << endl;
         cout << "\t" << location << " alarm <status>" << endl;
         cout << "\t" << location << " entry <open / close / lock / unlock>" << endl;
-        cout << "\t" << location << " camera <status>";
+        cout << "\t" << location << " camera <status>" << endl;
         cout << "\t" << location << " status" << endl;
 
         if (location == "lab") {
