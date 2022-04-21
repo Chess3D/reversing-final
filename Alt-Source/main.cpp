@@ -415,13 +415,13 @@ void control_loop(ofstream &log)
     split_input(input, &location, &object, &command);
 
     // Exit when the user types quit
-    if (command == "QUIT")
+    if (location == "QUIT")
     {
         return;
     }
 
     // Run the correct command
-    if (command == "HELP")
+    if (location == "HELP")
     {
         menus(log);
     }
