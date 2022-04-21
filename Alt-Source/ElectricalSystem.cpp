@@ -1,13 +1,14 @@
 #include "ElectricalSystem.h"
 #include "MD5.h"
-using std::string;
 
-#include <iostream>
+using std::string;
 
 ElectricalSystem::ElectricalSystem()
 {
     systemOn = true;
-    password = md5("howdy");
+
+    // Equivalent to md5("howdy")
+    password = "0782efd61b7a6b02e602cc6a11673ec9";
 }
 
 // Might not be needed either
@@ -20,8 +21,6 @@ bool ElectricalSystem::isOn()
 // Code is unused after small change to turnOff function
 bool ElectricalSystem::passwordCorrect(string input)
 {
-    // std::cout << "'" << input << "'" << std::endl;
-
     return password == md5(input);
 }
 

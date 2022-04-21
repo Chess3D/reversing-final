@@ -16,11 +16,6 @@ Entry::Entry()
 // Changed lock to use the ElectricalSystem password
 void Entry::lock()
 {
-    if (locked) {
-        cout << "Entry is already locked" << endl;
-        return;
-    }
-
     cout << "Enter passcode: ";
 
     string passcode;
@@ -31,6 +26,7 @@ void Entry::lock()
         if (isOn())
         {
             locked = true;
+            cout << "SUCCESS:  Entry locked" << endl;
         }
         else
         {
@@ -39,32 +35,26 @@ void Entry::lock()
     }
     else
     {
-        cout << "Passoword Incorrect" << endl;
+        cout << "ERROR:  Incorrect passoword" << endl;
     }
 }
 
 
 // Changed unlock to use the ElectricalSystem password
-void Entry::unlock()
-{
+void Entry::unlock() {
     cout << "Enter passcode: ";
 
     string passcode;
     getline(cin, passcode);
 
-    if (passwordCorrect(passcode))
-    {
-
-        if (isOn())
-        {
+    if (passwordCorrect(passcode)) {
+        if (isOn()) {
             locked = false;
             cout << "SUCCESS:  Entry unlocked" << endl;
         } else {
             cout << "ERROR:  Entry is powered down" << endl;
         }
-    }
-    else
-    {
+    } else {
         cout << "ERROR:  Incorrect passoword" << endl;
     }
 }
@@ -78,8 +68,7 @@ void Entry::open()
         return;
     }
 
-    if (isOn())
-    {
+    if (isOn()) {
         opened = true;
         cout << "SUCCESS:  Entry is open" << endl;
     } else {

@@ -267,23 +267,23 @@ void split_input(string input, string *command, string *location)
 }
 
 // Run the correct command for the given set of systems
-void do_command(string command, Alarm alarm, Entry door, Camera camera)
+void do_command(string command, Alarm *alarm, Entry *door, Camera *camera)
 {
     if (command == "alarmstatus")
     {
-        alarm.printMessage();
+        alarm->printMessage();
     }
     else if (command == "doorlock")
     {
-        door.lock();
+        door->lock();
     }
     else if (command == "doorunlock")
     {
-        door.unlock();
+        door->unlock();
     }
     else if (command == "camerastatus")
     {
-        camera.displayFeed();
+        camera->displayFeed();
     }
     else if (command == "inventorysummary")
     {
@@ -322,11 +322,11 @@ void control_loop(ofstream &log)
     }
     else if (location == "--vc")
     {
-        do_command(command, visitorAlarm, visitorDoor, visitorCamera);
+        do_command(command, &visitorAlarm, &visitorDoor, &visitorCamera);
     }
     else if (location == "--park")
     {
-        do_command(command, parkAlarm, parkDoor, parkCamera);
+        do_command(command, &parkAlarm, &parkDoor, &parkCamera);
     }
     else if (location == "--lab")
     {
@@ -336,7 +336,7 @@ void control_loop(ofstream &log)
         }
         else
         {
-            do_command(command, labAlarm, vaultDoor, vaultCamera);
+            do_command(command, &labAlarm, &vaultDoor, &vaultCamera);
         }
     }
 
