@@ -34,17 +34,17 @@ string admin_password = "602a2fb3c804262da455d0e57df95e2b";
 bool loggedin = false;
 
 // Visitor controls
-Alarm visitorAlarm("VISITOR ALARM");
+Alarm visitorAlarm("ALL CLEAR");
 Entry visitorDoor;
 Camera visitorCamera("ONLINE");
 
 // Park controls
-Alarm parkAlarm("PARK ALARM");
+Alarm parkAlarm("ALL CLEAR");
 Entry parkDoor;
 Camera parkCamera("ONLINE");
 
 // Lab controls
-Alarm labAlarm("LAB ALARM");
+Alarm labAlarm("ALL CLEAR");
 Entry vaultDoor;
 Camera vaultCamera("ONLINE");
 
