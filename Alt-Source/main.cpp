@@ -6,6 +6,7 @@
 #include <string.h>
 #include <map>
 #include <vector>
+
 // Internal imports
 #include "Alarm.h"
 #include "Entry.h"
@@ -13,6 +14,7 @@
 #include "Asset.h"
 #include "Car.h"
 #include "MD5.h"
+
 // string namespace
 using std::string;
 
@@ -321,7 +323,16 @@ bool do_command(string location, string object, string command) {
     Camera *camera;
 
     // Select the correct Alarm, Entry, and Camera object for the location
-    if (location == "vc") {
+    if (location == "help") {
+        return do_command("all", "help", "");
+    }
+    if (location == "all") {
+        return (
+            do_command("vc", object, command) &&
+            do_command("park", object, command) &&
+            do_command("lab", object, command)
+        );
+    } else if (location == "vc") {
         alarm = &visitorAlarm;
         entry = &visitorDoor;
         camera = &visitorCamera;
@@ -335,6 +346,29 @@ bool do_command(string location, string object, string command) {
         camera = &vaultCamera;
     } else {
         return false;
+    }
+
+    // Manage location help commands
+    if (object == "help") {
+        string name = "";
+        
+        if (location == "vc") {
+            name = "Visitor Center";
+        } else if (location == "park") {
+            name = "Park";
+        } else if (location == "lab") {
+            name = "Lab";
+        }
+
+        cout << "[HELP] " << name << endl;
+        cout << "\t" << location << " alarm <status>" << endl;
+        cout << "\t" << location << " entry <open / close / lock / unlock>" << endl;
+        cout << "\t" << location << " camera <status>";
+        cout << "\t" << location << " status" << endl;
+
+        if (location == "lab") {
+            cout << "\t" << location << " genesummery" << endl;
+        }
     }
 
     // Select the correct command function for the given object
@@ -356,6 +390,8 @@ bool do_command(string location, string object, string command) {
     if (location == "lab" && object == "genesummery") {
         getGenes();
     }
+
+    return true;
 }
 
 

@@ -14,7 +14,7 @@ private:
     std::string message;
 
     // Predefined messages
-    const string messages[5] = {
+    const std::string messages[5] = {
         "SEVERE WEATHER IMMINDENT. EVACUATE IMMEDIATELY",
         "THE FIRE ALARM HAS BEEN ACTIVATED. EVACUATE IMMEDIATELY",
         "BREACH DETECTED",
