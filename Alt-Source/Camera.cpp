@@ -18,7 +18,6 @@ Camera::Camera(string view)
 void Camera::displayFeed()
 {
     cout << "Enter passcode: ";
-    cin.ignore();
 
     string passcode;
     getline(cin, passcode);
@@ -27,7 +26,7 @@ void Camera::displayFeed()
     {
         if (isOn())
         {
-            cout << view;
+            cout << view << endl;
         }
     }
     else

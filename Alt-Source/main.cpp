@@ -255,41 +255,109 @@ void getGenes()
     cout << "===================================================" << endl;
 }
 
-// Splits the input into the command and location
-void split_input(string input, string *command, string *location)
+// Splits the input into the location, object, command 
+void split_input(string input, string *location, string *object, string *command)
 {
     string temp;
 
     istringstream ss(input);
 
-    ss >> *command;
     ss >> *location;
+    ss >> *object;
+    ss >> *command;
 }
 
-// Run the correct command for the given set of systems
-void do_command(string command, Alarm *alarm, Entry *door, Camera *camera)
-{
-    if (command == "alarmstatus")
-    {
+
+// Convert text command to a function call for an Alarm
+bool alarm_command(string command, Alarm *alarm) {
+    if (command == "status") {
+        cout << "[STATUS] Alarm:" << endl;
         alarm->printMessage();
+    } else {
+        return false;
     }
-    else if (command == "doorlock")
-    {
-        door->lock();
+
+    return true;
+}
+
+
+// Convert text command to a function call for an Entry
+bool entry_command(string command, Entry *entry) {
+    if (command == "open") {
+        entry->open();
+    } else if (command == "close") {
+        entry->close();
+    } else if (command == "lock") {
+        entry->lock();
+    } else if (command == "unlock") {
+        entry->unlock();
+    } else if (command == "status") {
+        entry->status();
+    } else {
+        return false;
     }
-    else if (command == "doorunlock")
-    {
-        door->unlock();
-    }
-    else if (command == "camerastatus")
-    {
+
+    return true;
+}
+
+
+// Convert text command to a function call for an Alarm
+bool camera_command(string command, Camera *camera) {
+    if (command == "status") {
+        cout << "[STATUS] Camera:" << endl;
         camera->displayFeed();
+    } else {
+        return false;
     }
-    else if (command == "inventorysummary")
-    {
-        cout << "TODO:  Should something happen here?" << endl;
+
+    return true;
+}
+
+
+// Select the correct command for the given input
+bool do_command(string location, string object, string command) {
+    Alarm *alarm;
+    Entry *entry;
+    Camera *camera;
+
+    // Select the correct Alarm, Entry, and Camera object for the location
+    if (location == "vc") {
+        alarm = &visitorAlarm;
+        entry = &visitorDoor;
+        camera = &visitorCamera;
+    } else if (location == "park") {
+        alarm = &parkAlarm;
+        entry = &parkDoor;
+        camera = &parkCamera;
+    } else if (location == "lab") {
+        alarm = &labAlarm;
+        entry = &vaultDoor;
+        camera = &vaultCamera;
+    } else {
+        return false;
+    }
+
+    // Select the correct command function for the given object
+    if (object == "alarm") {
+        return alarm_command(command, alarm);
+    } else if (object == "entry") {
+        return entry_command(command, entry);
+    } else if (object == "camera") {
+        return camera_command(command, camera);
+    } else if (object == "status") {
+        return (
+            camera_command(object, camera) &&
+            alarm_command(object, alarm) &&
+            entry_command(object, entry)
+        );
+    }
+
+    // Special case functions
+    if (location == "lab" && object == "genesummery") {
+        getGenes();
     }
 }
+
 
 // The primary control loop of the program
 void control_loop(ofstream &log)
@@ -303,11 +371,12 @@ void control_loop(ofstream &log)
     // Log the user input
     log << input << endl;
 
-    // Split the user input into two parts
-    string command;
+    // Split the user input into three parts
     string location;
+    string object;
+    string command;
 
-    split_input(input, &command, &location);
+    split_input(input, &location, &object, &command);
 
     // Exit when the user types quit
     if (command == "QUIT")
@@ -320,24 +389,9 @@ void control_loop(ofstream &log)
     {
         menus(log);
     }
-    else if (location == "--vc")
+    else
     {
-        do_command(command, &visitorAlarm, &visitorDoor, &visitorCamera);
-    }
-    else if (location == "--park")
-    {
-        do_command(command, &parkAlarm, &parkDoor, &parkCamera);
-    }
-    else if (location == "--lab")
-    {
-        if (command == "genesummary")
-        {
-            getGenes();
-        }
-        else
-        {
-            do_command(command, &labAlarm, &vaultDoor, &vaultCamera);
-        }
+        do_command(location, object, command);
     }
 
     // Continues to loop until "QUIT" is entered

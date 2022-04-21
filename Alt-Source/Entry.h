@@ -25,6 +25,8 @@ public:
 
     bool isOpen();
     bool isLocked();
+    
+    void status();
 };
 
 #endif

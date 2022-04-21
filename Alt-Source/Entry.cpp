@@ -107,3 +107,29 @@ bool Entry::isLocked()
 {
     return locked;
 }
+
+void Entry::status() {
+        cout << "[STATUS] Entry: ";
+
+        if (isOn()) {
+            cout << "ONLINE";
+        } else {
+            cout << "OFFLINE";
+        }
+
+        cout << " / ";
+        if (opened) {
+            cout << "OPEN";
+        } else {
+            cout << "CLOSED";
+        }
+
+        cout << " / ";
+        if (locked) {
+            cout << "LOCKED";
+        } else {
+            cout << "UNLOCKED";
+        }
+
+        cout << endl;
+}
