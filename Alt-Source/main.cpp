@@ -197,7 +197,6 @@ void check_alarms()
 void menus(ofstream &log)
 {
     int input;
-    cout << "Enter HELP at any time to see menus and QUIT to end program" << endl;
 
     do
     {
@@ -477,6 +476,7 @@ int main()
 
         if (validate(username, password))
         {
+            cout << "Enter HELP at any time to see menus and QUIT to end program" << endl;
             control_loop(log);
             break;
         }
