@@ -2,6 +2,9 @@
 
 using std::string;
 
+using std::cout;
+using std::endl;
+
 Inventory::Inventory(unsigned long serial, unsigned int lot, string date)
 {
     this->serial = serial;
@@ -37,4 +40,10 @@ void Inventory::setLot(unsigned int lot)
 void Inventory::setDate(string date)
 {
     this->date = date;
+}
+
+void Inventory::printInventory() {
+    cout << "Serial:  " << serial << endl;
+    cout << "Lot:  " << lot << endl;
+    cout << "Date:  " << date << endl;
 }

@@ -1,6 +1,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include <iostream>
 #include <string>
 
 class Inventory {
@@ -17,6 +18,7 @@ public:
     void setSerial(unsigned long serial);
     void setLot(unsigned int lot);
     void setDate(std::string date);
+    void printInventory();
 };
 
 #endif

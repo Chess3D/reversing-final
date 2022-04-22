@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <map>
+
 using std::cout;
 using std::endl;
+
 Car::Car(std::string name, double x, double y, int numPass, double fuel, double integrity)
 {
     this->name = name;

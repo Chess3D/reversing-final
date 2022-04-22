@@ -11,9 +11,11 @@
 #include "Alarm.h"
 #include "Entry.h"
 #include "Camera.h"
+#include "Inventory.h"
 #include "Asset.h"
 #include "Car.h"
 #include "MD5.h"
+#include "Images.h"
 
 // string namespace
 using std::string;
@@ -29,6 +31,9 @@ using std::ofstream;
 // sstream namespace
 using std::istringstream;
 
+// vector namespace
+using std::vector;
+
 // Global Variables :(
 struct timeval tv;
 string admin_user = "NEDRY";
@@ -38,17 +43,20 @@ bool loggedin = false;
 // Visitor controls
 Alarm visitorAlarm("ALL CLEAR");
 Entry visitorDoor;
-Camera visitorCamera("ONLINE");
+Camera visitorCamera(visitor_image);
+vector<Inventory> visitorInventory;
 
 // Park controls
-Alarm parkAlarm("ALL CLEAR");
+Alarm parkAlarm(0);
 Entry parkDoor;
 Camera parkCamera("ONLINE");
+vector<Asset> parkInventory;
 
 // Lab controls
-Alarm labAlarm("ALL CLEAR");
+Alarm labAlarm(1);
 Entry vaultDoor;
-Camera vaultCamera("ONLINE");
+Camera vaultCamera(lab_image);
+vector<Inventory> labInventory;
 
 // Car storage vector
 std::vector<Car> cars;
@@ -137,24 +145,24 @@ void park_controls(ofstream &log)
         break;
         case 4:
         {
-            Asset a1("Dilophosaurus", 23.0, 4.0);
-            Asset a2("Dilophosaurus", 21.0, 16.0);
-            Asset a3("Dilophosaurus", 12.0, 6.0);
-            cout << "Assets 1-3 can be found in this section: ";
-            cout << a1.getLocation() << endl;
-            Asset a4("T-Rex", 15.0, -17.0);
-            cout << "Asset 4 can be found in this section: ";
-            cout << a4.getLocation() << endl;
-            Asset a5("Triceratops", -12.0, -12.0);
-            Asset a6("Triceratops", -22.0, -22.0);
-            cout << "Assets 5-6 can be found in this section: ";
-            cout << a5.getLocation() << endl;
-            Asset a7("Raptor", -18.0, 9.0);
-            Asset a8("Raptor", -18.0, 7.0);
-            Asset a9("Raptor", -16.0, 5.0);
-            Asset a10("Raptor", -12.0, 9.0);
-            cout << "Assets 7-10 can be found in this section: ";
-            cout << a7.getLocation() << endl;
+            // Asset a1("Dilophosaurus", 23.0, 4.0);
+            // Asset a2("Dilophosaurus", 21.0, 16.0);
+            // Asset a3("Dilophosaurus", 12.0, 6.0);
+            // cout << "Assets 1-3 can be found in this section: ";
+            // cout << a1.getLocation() << endl;
+            // Asset a4("T-Rex", 15.0, -17.0);
+            // cout << "Asset 4 can be found in this section: ";
+            // cout << a4.getLocation() << endl;
+            // Asset a5("Triceratops", -12.0, -12.0);
+            // Asset a6("Triceratops", -22.0, -22.0);
+            // cout << "Assets 5-6 can be found in this section: ";
+            // cout << a5.getLocation() << endl;
+            // Asset a7("Raptor", -18.0, 9.0);
+            // Asset a8("Raptor", -18.0, 7.0);
+            // Asset a9("Raptor", -16.0, 5.0);
+            // Asset a10("Raptor", -12.0, 9.0);
+            // cout << "Assets 7-10 can be found in this section: ";
+            // cout << a7.getLocation() << endl;
         }
         break;
         default:
@@ -315,34 +323,190 @@ bool camera_command(string command, Camera *camera) {
 }
 
 
+// Adds an Inventory to an inventory 
+bool inventory_add(vector<Inventory> *inventory) {
+    unsigned long serial;
+    unsigned int lot;
+    string date;
+
+    cout << "Enter serial: ";
+    cin >> serial;
+
+    cout << "Enter lot: ";
+    cin >> lot;
+
+    cout << "Enter date: ";
+    cin.ignore();
+    getline(cin, date);
+
+    try {
+        inventory->push_back(Inventory(serial, lot, date));
+    } catch (const char* e){
+        return false;
+    }
+
+    return true;
+}
+
+
+// Adds an Asset to an inventory 
+bool inventory_add(vector<Asset> *inventory) {
+    unsigned int id;
+
+    string name;
+
+    double x;
+    double y;
+
+    cout << "Enter ID: ";
+    cin >> id;
+
+    cout << "Enter name: ";
+    cin.ignore();
+    getline(cin, name);
+
+    cout << "Enter x-corrdinate: ";
+    cin >> x;
+
+    cout << "Enter y-corrdinate: ";
+    cin >> y;
+
+    try {
+        inventory->push_back(Asset(name, id, x, y));
+    } catch (const char* e){
+        return false;
+    }
+
+    return true;
+}
+
+
+// Adds an Inventory to an inventory 
+bool inventory_remove(vector<Inventory> *inventory) {
+    unsigned long serial;
+
+    if (inventory->empty()) {
+        cout << "[ERROR] Inventory is empty" << endl;
+        return false;
+    }
+
+    cout << "Enter serial: ";
+    cin >> serial;
+
+    for (vector<Inventory>::iterator i = inventory->begin(); i != inventory->end(); i++) {
+        if (i->getSerial() == serial) {
+            inventory->erase(i);
+            cout << "[SUCCESS] Item removed" << endl;
+            return true;
+        }
+    }
+
+    cout << "[ERROR] Item could not be removed" << endl;
+    return false;
+}
+
+
+// Removes Asset from inventory
+bool inventory_remove(vector<Asset> *inventory) {
+    unsigned int id;
+
+    if (inventory->empty()) {
+        cout << "[ERROR] Inventory is empty" << endl;
+        return false;
+    }
+
+    cout << "Enter ID: ";
+    cin >> id;
+    for (vector<Asset>::iterator i = inventory->begin(); i != inventory->end(); i++) {
+        if (i->getID() == id) {
+            inventory->erase(i);
+            cout << "[SUCCESS] Item removed" << endl;
+            return true;
+        }
+    }
+
+    cout << "[ERROR] Item could not be removed" << endl;
+    return false;
+}
+
+
+// Convert text command to a function call for an Inventory vector
+bool inventory_command(string command, vector<Inventory> *inventory) {
+    if (command == "add") {
+        return inventory_add(inventory);
+    } else if (command == "remove") {
+        return inventory_remove(inventory);
+    } else if (command == "view") {
+        if (inventory->size() == 0) {
+            cout << "[ERROR] Inventory is empty" << endl;
+            return false;
+        }
+
+        for (vector<Inventory>::iterator i = inventory->begin(); i != inventory->end(); i++) {
+                i->printInventory();
+        }
+        return true;
+    }
+
+    return false;
+}
+
+
+// Convert text command to a function call for an Inventory vector
+bool inventory_command(string command, vector<Asset> *inventory) {
+    if (command == "add") {
+        return inventory_add(inventory);
+    } else if (command == "remove") {
+        return inventory_remove(inventory);
+    } else if (command == "view") {
+        if (inventory->size() == 0) {
+            cout << "[ERROR] Inventory is empty" << endl;
+            return false;
+        }
+        for (vector<Asset>::iterator i = inventory->begin(); i != inventory->end(); i++) {
+            i->printAsset();
+        }
+        return true;
+    }
+
+    return false;
+}
+
+
 // Select the correct command for the given input
 bool do_command(string location, string object, string command) {
     Alarm *alarm;
     Entry *entry;
     Camera *camera;
 
+    void *inventory;
+
     // Select the correct Alarm, Entry, and Camera object for the location
     if (location == "help") {
         return do_command("all", "help", "");
     }
     if (location == "all") {
-        return (
-            do_command("vc", object, command) &&
-            do_command("park", object, command) &&
-            do_command("lab", object, command)
-        );
+        bool success = do_command("vc", object, command);
+        success = do_command("park", object, command) && success;
+        success = do_command("lab", object, command) && success;
+
+        return success;
     } else if (location == "vc") {
         alarm = &visitorAlarm;
         entry = &visitorDoor;
         camera = &visitorCamera;
+        inventory = &visitorInventory;
+        vector<Inventory> *inventory = &visitorInventory;
     } else if (location == "park") {
         alarm = &parkAlarm;
         entry = &parkDoor;
         camera = &parkCamera;
+        inventory = &parkInventory;
     } else if (location == "lab") {
         alarm = &labAlarm;
         entry = &vaultDoor;
         camera = &vaultCamera;
+        inventory = &labInventory;
     } else {
         return false;
     }
@@ -363,6 +527,7 @@ bool do_command(string location, string object, string command) {
         cout << "\t" << location << " alarm <status>" << endl;
         cout << "\t" << location << " entry <open / close / lock / unlock>" << endl;
         cout << "\t" << location << " camera <status>" << endl;
+        cout << "\t" << location << " inventory <add / remove / view>" << endl;
         cout << "\t" << location << " status" << endl;
 
         if (location == "lab") {
@@ -377,12 +542,17 @@ bool do_command(string location, string object, string command) {
         return entry_command(command, entry);
     } else if (object == "camera") {
         return camera_command(command, camera);
+    } else if (object == "inventory") {
+        if (location == "park") {
+            return inventory_command(command, (vector<Asset>*)inventory);
+        }
+        return inventory_command(command, (vector<Inventory>*)inventory);
     } else if (object == "status") {
-        return (
-            camera_command(object, camera) &&
-            alarm_command(object, alarm) &&
-            entry_command(object, entry)
-        );
+        bool success = camera_command(object, camera);
+        success = alarm_command(object, alarm) && success;
+        success = entry_command(object, entry) && success;
+
+        return success;
     }
 
     // Special case functions

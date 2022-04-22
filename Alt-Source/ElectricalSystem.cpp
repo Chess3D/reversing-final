@@ -3,6 +3,9 @@
 
 using std::string;
 
+using std::cout;
+using std::endl;
+
 ElectricalSystem::ElectricalSystem()
 {
     systemOn = true;
@@ -21,7 +24,13 @@ bool ElectricalSystem::isOn()
 // Code is unused after small change to turnOff function
 bool ElectricalSystem::passwordCorrect(string input)
 {
-    return password == md5(input);
+    if (password != md5(input)) {
+        cout << "PERMISSION DENIED" << endl;
+        cout << "AH AH AH! YOU DIDN'T SAY THE MAGIC WORD!" << endl;
+        return false;
+    }
+
+    return true;
 }
 
 void ElectricalSystem::turnOff(string input)
