@@ -61,15 +61,6 @@ vector<Inventory> labInventory;
 // Car storage vector
 vector<Car> cars;
 
-// Adds cars to vector
-Car car001("CAR001", -10, -10, 2, 4, 100);
-cars.push_back(car001);
-Car car002("CAR002", -10, 10, 4, 10, 97);
-cars.push_back(car002);
-Car car003("CAR003", 10, -10, 10, 20, 84);
-cars.push_back(car003);
-Car car004("CAR004", 10, 10, 7, 16, 32);
-cars.push_back(car004);
 
 // TODO:  Has an unused input in disassembly (why?)
 string logdata()
@@ -623,7 +614,7 @@ void control_loop(ofstream &log)
     split_input(input_lower, &location, &object, &command);
 
     // Exit when the user types quit
-    if (location == "QUIT")
+    if (location == "quit")
     {
         return;
     }
@@ -642,8 +633,26 @@ void control_loop(ofstream &log)
     control_loop(log);
 }
 
+
+// Adds cars to vector
+void init_cars() {
+    Car car001("CAR001", -10, -10, 2, 4, 100);
+    cars.push_back(car001);
+    Car car002("CAR002", -10, 10, 4, 10, 97);
+    cars.push_back(car002);
+    Car car003("CAR003", 10, -10, 10, 20, 84);
+    cars.push_back(car003);
+    Car car004("CAR004", 10, 10, 7, 16, 32);
+    cars.push_back(car004);
+}
+
+
 int main()
 {
+    // Initialize the car objects
+    init_cars();
+
+    // Display initial prompt
     cout << "Welcome to InGen" << endl;
     cout << "Proud leader in Genetics since 1990" << endl
          << endl;
