@@ -59,7 +59,17 @@ Camera vaultCamera(lab_image);
 vector<Inventory> labInventory;
 
 // Car storage vector
-std::vector<Car> cars;
+vector<Car> cars;
+
+// Adds cars to vector
+Car car001("CAR001", -10, -10, 2, 4, 100);
+cars.push_back(car001);
+Car car002("CAR002", -10, 10, 4, 10, 97);
+cars.push_back(car002);
+Car car003("CAR003", 10, -10, 10, 20, 84);
+cars.push_back(car003);
+Car car004("CAR004", 10, 10, 7, 16, 32);
+cars.push_back(car004);
 
 // TODO:  Has an unused input in disassembly (why?)
 string logdata()
@@ -473,6 +483,23 @@ bool inventory_command(string command, vector<Asset> *inventory) {
 }
 
 
+// Runs correct car command
+bool car_command(string command, vector<Car> *cars) {
+    if (command == "track") {
+        if (cars->size() == 0) {
+            cout << "[ERROR] No cars to track" << endl;
+            return false;
+        }
+        for (vector<Car>::iterator i = cars->begin(); i != cars->end(); i++) {
+            i->printCarInfo();
+        }
+        return true;
+    }
+
+    return false;
+}
+
+
 // Select the correct command for the given input
 bool do_command(string location, string object, string command) {
     Alarm *alarm;
@@ -532,6 +559,8 @@ bool do_command(string location, string object, string command) {
 
         if (location == "lab") {
             cout << "\t" << location << " genesummery" << endl;
+        } else if (location == "park") {
+            cout << "\t" << location << " car track" << endl;
         }
     }
 
@@ -560,6 +589,10 @@ bool do_command(string location, string object, string command) {
         getGenes();
     }
 
+    if (location == "park" && object == "car") {
+        return car_command(command, &cars);
+    }
+
     return true;
 }
 
@@ -576,12 +609,18 @@ void control_loop(ofstream &log)
     // Log the user input
     log << input << endl;
 
+    // Converts the input to lowercase
+    string input_lower = "";
+    for (int i = 0; i < input.size(); ++i) {
+        input_lower += tolower(input.c_str()[i]);
+    }
+
     // Split the user input into three parts
     string location;
     string object;
     string command;
 
-    split_input(input, &location, &object, &command);
+    split_input(input_lower, &location, &object, &command);
 
     // Exit when the user types quit
     if (location == "QUIT")
