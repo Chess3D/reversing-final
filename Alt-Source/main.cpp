@@ -61,7 +61,6 @@ vector<Inventory> labInventory;
 // Car storage vector
 vector<Car> cars;
 
-
 // TODO:  Has an unused input in disassembly (why?)
 string logdata()
 {
@@ -69,7 +68,7 @@ string logdata()
     output += "THANK YOU FOR USING THE INGEN SYSTEM\n";
     output += "WE APPRECIATE YOUR CONTRIBUTIONS\n";
     output += "TRY AGAIN LATER IF YOU WANT\n";
-    output += "STORE THIS INFORMATION FOR YOUR RECORDS\n";
+    output += "STORE THIS INFORMATION FOR YOUR RECORDS\n\n";
 
     return output;
 }
@@ -89,158 +88,6 @@ bool validate(string &username, string &password)
     }
 
     return loggedin;
-}
-
-// TODO:  Write function
-void visitor_controls()
-{
-    cout << "VISITOR CONTROLS\n";
-
-    string status = "All clear";
-    visitorAlarm.setMessage(status);
-    visitorAlarm.printMessage();
-}
-
-// TODO:  Write function
-void park_controls(ofstream &log)
-{
-    int input;
-
-    do
-    {
-        // Print help menu
-        cout << "[1] - Alarm System \n[2] - Entry Controls \n[3] - Car Tracking \n[4] - Inventory \n[0] - QUIT\n";
-
-        cin >> input;
-        log << input << endl;
-
-        switch (input)
-        {
-        case 1:
-            parkAlarm.printMessage();
-            break;
-        case 2:
-            cout << "Current Status" << endl;
-            cout << "Section 1 secure" << endl;
-            cout << "Section 2 secure" << endl;
-            cout << "Section 3 secure" << endl;
-            cout << "Section 4 secure" << endl;
-            cout << "Park Perimeter secure" << endl;
-            break;
-        case 3:
-        {
-            Car car001("CAR001", -10, -10, 2, 4, 100);
-            cars.push_back(car001);
-            Car car002("CAR002", -10, 10, 4, 10, 97);
-            cars.push_back(car002);
-            Car car003("CAR003", 10, -10, 10, 20, 84);
-            cars.push_back(car003);
-            Car car004("CAR004", 10, 10, 7, 16, 32);
-            cars.push_back(car004);
-
-            for (std::vector<Car>::iterator i = cars.begin(); i != cars.end(); i++)
-            {
-                i->printCarInfo();
-            }
-        }
-        break;
-        case 4:
-        {
-            // Asset a1("Dilophosaurus", 23.0, 4.0);
-            // Asset a2("Dilophosaurus", 21.0, 16.0);
-            // Asset a3("Dilophosaurus", 12.0, 6.0);
-            // cout << "Assets 1-3 can be found in this section: ";
-            // cout << a1.getLocation() << endl;
-            // Asset a4("T-Rex", 15.0, -17.0);
-            // cout << "Asset 4 can be found in this section: ";
-            // cout << a4.getLocation() << endl;
-            // Asset a5("Triceratops", -12.0, -12.0);
-            // Asset a6("Triceratops", -22.0, -22.0);
-            // cout << "Assets 5-6 can be found in this section: ";
-            // cout << a5.getLocation() << endl;
-            // Asset a7("Raptor", -18.0, 9.0);
-            // Asset a8("Raptor", -18.0, 7.0);
-            // Asset a9("Raptor", -16.0, 5.0);
-            // Asset a10("Raptor", -12.0, 9.0);
-            // cout << "Assets 7-10 can be found in this section: ";
-            // cout << a7.getLocation() << endl;
-        }
-        break;
-        default:
-            cout << "EXITING PARK CONTROLS\n ";
-            break;
-        }
-    } while (input);
-}
-
-// Prints valid lab controls
-void lab_controls()
-{
-    cout << "LAB CONTROLS" << endl;
-    cout << "alarmstatus --lab\n";
-    cout << "unlockdoor --lab\n";
-    cout << "lockdoor --lab\n";
-    cout << "camerastatus --lab\n";
-    cout << "genesummary --lab\n";
-}
-
-// This was originally in menus but was moved here to make testing easier
-void check_alarms()
-{
-    cout << "Checking alarms..." << endl;
-
-    cout << "Lab:" << endl;
-    labAlarm.printMessage();
-
-    cout << "Visitor Center:" << endl;
-    visitorAlarm.printMessage();
-
-    cout << "Park:" << endl;
-    parkAlarm.printMessage();
-}
-
-// Function changes
-// 1. Moved the cin into the loop
-// 2. Changed to do-while loop
-// This prevents the code from being stuck in an infinite loop
-void menus(ofstream &log)
-{
-    int input;
-
-    do
-    {
-        // Print help menu
-        cout << "[1] - Visitor Center\n";
-        cout << "[2] - Park \n";
-        cout << "[3] - Research Lab\n";
-        cout << "[99] - Check Alarms\n";
-        cout << "[0] - QUIT MENU\n";
-
-        cin >> input;
-        log << input << endl;
-
-        switch (input)
-        {
-        case 1:
-            visitor_controls();
-            break;
-        case 2:
-            park_controls(log);
-            break;
-        case 3:
-            lab_controls();
-            break;
-        case 99:
-            // This repaces the code previously here to help with debuging
-            check_alarms();
-            break;
-        case 0:
-            break;
-        default:
-            cout << "Invalid instruction.\n";
-            break;
-        }
-    } while (input);
 }
 
 void getGenes()
@@ -265,7 +112,7 @@ void getGenes()
     cout << "===================================================" << endl;
 }
 
-// Splits the input into the location, object, command 
+// Splits the input into the location, object, command
 void split_input(string input, string *location, string *object, string *command)
 {
     string temp;
@@ -277,55 +124,72 @@ void split_input(string input, string *location, string *object, string *command
     ss >> *command;
 }
 
-
 // Convert text command to a function call for an Alarm
-bool alarm_command(string command, Alarm *alarm) {
-    if (command == "status") {
+bool alarm_command(string command, Alarm *alarm)
+{
+    if (command == "status")
+    {
         cout << "[STATUS] Alarm:" << endl;
         alarm->printMessage();
-    } else {
+    }
+    else
+    {
         return false;
     }
 
     return true;
 }
-
 
 // Convert text command to a function call for an Entry
-bool entry_command(string command, Entry *entry) {
-    if (command == "open") {
+bool entry_command(string command, Entry *entry)
+{
+    if (command == "open")
+    {
         entry->open();
-    } else if (command == "close") {
+    }
+    else if (command == "close")
+    {
         entry->close();
-    } else if (command == "lock") {
+    }
+    else if (command == "lock")
+    {
         entry->lock();
-    } else if (command == "unlock") {
+    }
+    else if (command == "unlock")
+    {
         entry->unlock();
-    } else if (command == "status") {
+    }
+    else if (command == "status")
+    {
         entry->status();
-    } else {
+    }
+    else
+    {
         return false;
     }
 
     return true;
 }
-
 
 // Convert text command to a function call for an Alarm
-bool camera_command(string command, Camera *camera) {
-    if (command == "status") {
+bool camera_command(string command, Camera *camera)
+{
+    if (command == "status")
+    {
         cout << "[STATUS] Camera:" << endl;
         camera->displayFeed();
-    } else {
+    }
+    else
+    {
         return false;
     }
 
     return true;
 }
 
-
-// Adds an Inventory to an inventory 
-bool inventory_add(vector<Inventory> *inventory) {
+// Adds an Inventory to an inventory
+bool inventory_add(vector<Inventory> *inventory)
+{
     unsigned long serial;
     unsigned int lot;
     string date;
@@ -340,18 +204,21 @@ bool inventory_add(vector<Inventory> *inventory) {
     cin.ignore();
     getline(cin, date);
 
-    try {
+    try
+    {
         inventory->push_back(Inventory(serial, lot, date));
-    } catch (const char* e){
+    }
+    catch (const char *e)
+    {
         return false;
     }
 
     return true;
 }
 
-
-// Adds an Asset to an inventory 
-bool inventory_add(vector<Asset> *inventory) {
+// Adds an Asset to an inventory
+bool inventory_add(vector<Asset> *inventory)
+{
     unsigned int id;
 
     string name;
@@ -372,21 +239,25 @@ bool inventory_add(vector<Asset> *inventory) {
     cout << "Enter y-corrdinate: ";
     cin >> y;
 
-    try {
+    try
+    {
         inventory->push_back(Asset(name, id, x, y));
-    } catch (const char* e){
+    }
+    catch (const char *e)
+    {
         return false;
     }
 
     return true;
 }
 
-
-// Adds an Inventory to an inventory 
-bool inventory_remove(vector<Inventory> *inventory) {
+// Adds an Inventory to an inventory
+bool inventory_remove(vector<Inventory> *inventory)
+{
     unsigned long serial;
 
-    if (inventory->empty()) {
+    if (inventory->empty())
+    {
         cout << "[ERROR] Inventory is empty" << endl;
         return false;
     }
@@ -394,8 +265,10 @@ bool inventory_remove(vector<Inventory> *inventory) {
     cout << "Enter serial: ";
     cin >> serial;
 
-    for (vector<Inventory>::iterator i = inventory->begin(); i != inventory->end(); i++) {
-        if (i->getSerial() == serial) {
+    for (vector<Inventory>::iterator i = inventory->begin(); i != inventory->end(); i++)
+    {
+        if (i->getSerial() == serial)
+        {
             inventory->erase(i);
             cout << "[SUCCESS] Item removed" << endl;
             return true;
@@ -406,20 +279,23 @@ bool inventory_remove(vector<Inventory> *inventory) {
     return false;
 }
 
-
 // Removes Asset from inventory
-bool inventory_remove(vector<Asset> *inventory) {
+bool inventory_remove(vector<Asset> *inventory)
+{
     unsigned int id;
 
-    if (inventory->empty()) {
+    if (inventory->empty())
+    {
         cout << "[ERROR] Inventory is empty" << endl;
         return false;
     }
 
     cout << "Enter ID: ";
     cin >> id;
-    for (vector<Asset>::iterator i = inventory->begin(); i != inventory->end(); i++) {
-        if (i->getID() == id) {
+    for (vector<Asset>::iterator i = inventory->begin(); i != inventory->end(); i++)
+    {
+        if (i->getID() == id)
+        {
             inventory->erase(i);
             cout << "[SUCCESS] Item removed" << endl;
             return true;
@@ -430,21 +306,28 @@ bool inventory_remove(vector<Asset> *inventory) {
     return false;
 }
 
-
 // Convert text command to a function call for an Inventory vector
-bool inventory_command(string command, vector<Inventory> *inventory) {
-    if (command == "add") {
+bool inventory_command(string command, vector<Inventory> *inventory)
+{
+    if (command == "add")
+    {
         return inventory_add(inventory);
-    } else if (command == "remove") {
+    }
+    else if (command == "remove")
+    {
         return inventory_remove(inventory);
-    } else if (command == "view") {
-        if (inventory->size() == 0) {
+    }
+    else if (command == "view")
+    {
+        if (inventory->size() == 0)
+        {
             cout << "[ERROR] Inventory is empty" << endl;
             return false;
         }
 
-        for (vector<Inventory>::iterator i = inventory->begin(); i != inventory->end(); i++) {
-                i->printInventory();
+        for (vector<Inventory>::iterator i = inventory->begin(); i != inventory->end(); i++)
+        {
+            i->printInventory();
         }
         return true;
     }
@@ -452,19 +335,26 @@ bool inventory_command(string command, vector<Inventory> *inventory) {
     return false;
 }
 
-
 // Convert text command to a function call for an Inventory vector
-bool inventory_command(string command, vector<Asset> *inventory) {
-    if (command == "add") {
+bool inventory_command(string command, vector<Asset> *inventory)
+{
+    if (command == "add")
+    {
         return inventory_add(inventory);
-    } else if (command == "remove") {
+    }
+    else if (command == "remove")
+    {
         return inventory_remove(inventory);
-    } else if (command == "view") {
-        if (inventory->size() == 0) {
+    }
+    else if (command == "view")
+    {
+        if (inventory->size() == 0)
+        {
             cout << "[ERROR] Inventory is empty" << endl;
             return false;
         }
-        for (vector<Asset>::iterator i = inventory->begin(); i != inventory->end(); i++) {
+        for (vector<Asset>::iterator i = inventory->begin(); i != inventory->end(); i++)
+        {
             i->printAsset();
         }
         return true;
@@ -473,15 +363,18 @@ bool inventory_command(string command, vector<Asset> *inventory) {
     return false;
 }
 
-
 // Runs correct car command
-bool car_command(string command, vector<Car> *cars) {
-    if (command == "track") {
-        if (cars->size() == 0) {
+bool car_command(string command, vector<Car> *cars)
+{
+    if (command == "track")
+    {
+        if (cars->size() == 0)
+        {
             cout << "[ERROR] No cars to track" << endl;
             return false;
         }
-        for (vector<Car>::iterator i = cars->begin(); i != cars->end(); i++) {
+        for (vector<Car>::iterator i = cars->begin(); i != cars->end(); i++)
+        {
             i->printCarInfo();
         }
         return true;
@@ -490,9 +383,9 @@ bool car_command(string command, vector<Car> *cars) {
     return false;
 }
 
-
 // Select the correct command for the given input
-bool do_command(string location, string object, string command) {
+bool do_command(string location, string object, string command)
+{
     Alarm *alarm;
     Entry *entry;
     Camera *camera;
@@ -500,44 +393,60 @@ bool do_command(string location, string object, string command) {
     void *inventory;
 
     // Select the correct Alarm, Entry, and Camera object for the location
-    if (location == "help") {
+    if (location == "help")
+    {
         return do_command("all", "help", "");
     }
-    if (location == "all") {
+    if (location == "all")
+    {
         bool success = do_command("vc", object, command);
         success = do_command("park", object, command) && success;
         success = do_command("lab", object, command) && success;
 
         return success;
-    } else if (location == "vc") {
+    }
+    else if (location == "vc")
+    {
         alarm = &visitorAlarm;
         entry = &visitorDoor;
         camera = &visitorCamera;
         inventory = &visitorInventory;
         vector<Inventory> *inventory = &visitorInventory;
-    } else if (location == "park") {
+    }
+    else if (location == "park")
+    {
         alarm = &parkAlarm;
         entry = &parkDoor;
         camera = &parkCamera;
         inventory = &parkInventory;
-    } else if (location == "lab") {
+    }
+    else if (location == "lab")
+    {
         alarm = &labAlarm;
         entry = &vaultDoor;
         camera = &vaultCamera;
         inventory = &labInventory;
-    } else {
+    }
+    else
+    {
         return false;
     }
 
     // Manage location help commands
-    if (object == "help") {
+    if (object == "help")
+    {
         string name = "";
-        
-        if (location == "vc") {
+
+        if (location == "vc")
+        {
             name = "Visitor Center";
-        } else if (location == "park") {
+        }
+        else if (location == "park")
+        {
             name = "Park";
-        } else if (location == "lab") {
+        }
+        else if (location == "lab")
+        {
             name = "Lab";
         }
 
@@ -548,26 +457,39 @@ bool do_command(string location, string object, string command) {
         cout << "\t" << location << " inventory <add / remove / view>" << endl;
         cout << "\t" << location << " status" << endl;
 
-        if (location == "lab") {
+        if (location == "lab")
+        {
             cout << "\t" << location << " genesummery" << endl;
-        } else if (location == "park") {
+        }
+        else if (location == "park")
+        {
             cout << "\t" << location << " car track" << endl;
         }
     }
 
     // Select the correct command function for the given object
-    if (object == "alarm") {
+    if (object == "alarm")
+    {
         return alarm_command(command, alarm);
-    } else if (object == "entry") {
+    }
+    else if (object == "entry")
+    {
         return entry_command(command, entry);
-    } else if (object == "camera") {
+    }
+    else if (object == "camera")
+    {
         return camera_command(command, camera);
-    } else if (object == "inventory") {
-        if (location == "park") {
-            return inventory_command(command, (vector<Asset>*)inventory);
+    }
+    else if (object == "inventory")
+    {
+        if (location == "park")
+        {
+            return inventory_command(command, (vector<Asset> *)inventory);
         }
-        return inventory_command(command, (vector<Inventory>*)inventory);
-    } else if (object == "status") {
+        return inventory_command(command, (vector<Inventory> *)inventory);
+    }
+    else if (object == "status")
+    {
         bool success = camera_command(object, camera);
         success = alarm_command(object, alarm) && success;
         success = entry_command(object, entry) && success;
@@ -576,17 +498,18 @@ bool do_command(string location, string object, string command) {
     }
 
     // Special case functions
-    if (location == "lab" && object == "genesummery") {
+    if (location == "lab" && object == "genesummery")
+    {
         getGenes();
     }
 
-    if (location == "park" && object == "car") {
+    if (location == "park" && object == "car")
+    {
         return car_command(command, &cars);
     }
 
     return true;
 }
-
 
 // The primary control loop of the program
 void control_loop(ofstream &log)
@@ -602,7 +525,8 @@ void control_loop(ofstream &log)
 
     // Converts the input to lowercase
     string input_lower = "";
-    for (int i = 0; i < input.size(); ++i) {
+    for (int i = 0; i < input.size(); ++i)
+    {
         input_lower += tolower(input.c_str()[i]);
     }
 
@@ -619,23 +543,15 @@ void control_loop(ofstream &log)
         return;
     }
 
-    // Run the correct command
-    if (location == "HELP")
-    {
-        menus(log);
-    }
-    else
-    {
-        do_command(location, object, command);
-    }
+    do_command(location, object, command);
 
     // Continues to loop until "QUIT" is entered
     control_loop(log);
 }
 
-
 // Adds cars to vector
-void init_cars() {
+void init_cars()
+{
     Car car001("CAR001", -10, -10, 2, 4, 100);
     cars.push_back(car001);
     Car car002("CAR002", -10, 10, 4, 10, 97);
@@ -646,11 +562,38 @@ void init_cars() {
     cars.push_back(car004);
 }
 
+// add assets to vector
+void init_assets()
+{
+    Asset a1("Dilophosaurus", 2342, 23.0, 4.0);
+    Asset a2("Dilophosaurus", 5533, 21.0, 16.0);
+    Asset a3("Dilophosaurus", 2345, 12.0, 6.0);
+    Asset a4("T-Rex", 9983, 15.0, -17.0);
+    Asset a5("Triceratops", 7842, -12.0, -12.0);
+    Asset a6("Triceratops", 8741, -22.0, -22.0);
+    Asset a7("Raptor", 1111, -18.0, 9.0);
+    Asset a8("Raptor", 2222, -18.0, 7.0);
+    Asset a9("Raptor", 8787, -16.0, 5.0);
+    Asset a10("Raptor", 9907, -12.0, 9.0);
+    parkInventory.push_back(a1);
+    parkInventory.push_back(a2);
+    parkInventory.push_back(a3);
+    parkInventory.push_back(a4);
+    parkInventory.push_back(a5);
+    parkInventory.push_back(a6);
+    parkInventory.push_back(a7);
+    parkInventory.push_back(a8);
+    parkInventory.push_back(a9);
+    parkInventory.push_back(a10);
+}
 
 int main()
 {
     // Initialize the car objects
     init_cars();
+
+    // Initialize the asset objects
+    init_assets();
 
     // Display initial prompt
     cout << "Welcome to InGen" << endl;
@@ -680,14 +623,14 @@ int main()
         cout << "Password:  ";
         cin.ignore();
         getline(cin, password);
-
+        cout << endl;
         // Get time
         gettimeofday(&tv, 0);
 
         // Add to time, username, and password to the session log
         log << "TIME: " << tv.tv_sec << endl;
         log << "USER: " << username << endl;
-        log << "PASS: " << password << endl;
+        log << "PASS: *****" << endl;
 
         // Log the log message
         log << logdata();
